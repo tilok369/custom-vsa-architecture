@@ -1,14 +1,8 @@
-﻿using MediatR;
-using MediatR.Pipeline;
+﻿using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using VsaArchitecture.Application.Common.Behavior;
 using VsaArchitecture.Application.Contracts.Services;
+using VsaArchitecture.Application.Services;
 
 namespace VsaArchitecture.Application;
 
@@ -16,7 +10,7 @@ public static class ConfigureApplicationServices
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<ICurrentUserService, ICurrentUserService>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         services.AddMediatR(options =>
         {

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VsaArchitecture.Application.Contracts.Infrastructure.Persistent;
+using VsaArchitecture.Infrastructure.Repositories;
 
 namespace VsaArchitecture.Infrastructure;
 
@@ -19,6 +20,9 @@ public static class ConfigureInfrastructureServices
                 );
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }
