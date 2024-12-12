@@ -1,4 +1,5 @@
-﻿using MediatR.Pipeline;
+﻿using FluentValidation;
+using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using VsaArchitecture.Application.Common.Behavior;
 using VsaArchitecture.Application.Contracts.Services;
@@ -10,6 +11,7 @@ public static class ConfigureApplicationServices
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
+        services.AddValidatorsFromAssemblyContaining<FluentValidatorHelper>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         services.AddMediatR(options =>
