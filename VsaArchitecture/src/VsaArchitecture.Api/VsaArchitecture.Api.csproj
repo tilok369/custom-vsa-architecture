@@ -11,4 +11,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VsaArchitecture.Application\VsaArchitecture.Application.csproj" />
+    <ProjectReference Include="..\VsaArchitecture.Domain\VsaArchitecture.Domain.csproj" />
+    <ProjectReference Include="..\VsaArchitecture.Infrastructure\VsaArchitecture.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
