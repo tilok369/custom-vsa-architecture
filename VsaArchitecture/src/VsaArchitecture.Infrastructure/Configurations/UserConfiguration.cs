@@ -9,13 +9,13 @@ using VsaArchitecture.Domain.Entities;
 
 namespace VsaArchitecture.Infrastructure.Configurations
 {
-    public class UserConfiguration : BaseEntityConfiguration<User>
+    public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            base.Configure(builder);
-
             builder.ToTable("Users", "dbo");
+
+            BaseEntityConfiguration.ConfigureAuditable(builder);
 
             builder.HasKey(x => x.Id);
             builder.Property(p => p.UserId)

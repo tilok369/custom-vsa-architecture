@@ -9,22 +9,20 @@ using VsaArchitecture.Domain.Common;
 
 namespace VsaArchitecture.Infrastructure.Configurations;
 
-public class BaseEntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : AuditableEntity
+public static class BaseEntityConfiguration 
 {
-    public void Configure(EntityTypeBuilder<TEntity> builder)
+    public static void ConfigureAuditable<TEntity>(EntityTypeBuilder<TEntity> builder) where TEntity : AuditableEntity
     {
         builder.Property(p => p.Created)
             .HasColumnType("datetime")
             .IsRequired();
         builder.Property(p => p.CreatedBy)
-            .HasColumnType("nvarchar")
             .HasMaxLength(20)
             .IsRequired();
 
         builder.Property(p => p.LastModified)
             .HasColumnType("datetime");
         builder.Property(p => p.LastModifiedBy)
-            .HasColumnType("nvarchar")
             .HasMaxLength(20);
     }
 }
