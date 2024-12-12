@@ -1,0 +1,6 @@
+@VsaArchitecture.Api_HostAddress = http://localhost:5076
+
+GET {{VsaArchitecture.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
