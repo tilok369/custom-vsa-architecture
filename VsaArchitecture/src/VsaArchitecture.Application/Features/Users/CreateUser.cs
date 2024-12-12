@@ -13,15 +13,15 @@ namespace VsaArchitecture.Application.Features.Users
 {
     public static class CreateUser
     {
-        public record Command : IRequest<int>
+        public record CreateUserCommand : IRequest<int>
         {
             public string UserId { get; set; } = string.Empty;
             public string Password { get; set; } = string.Empty;
         }
 
-        public class CommandValidator : AbstractValidator<Command>
+        public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
         {
-            public CommandValidator()
+            public CreateUserCommandValidator()
             {
                 RuleFor(p=>p.UserId)
                     .NotEmpty()
@@ -33,12 +33,12 @@ namespace VsaArchitecture.Application.Features.Users
             }
         }
 
-        public class Handler : IRequestHandler<Command, int>
+        public class CreateUserHandler : IRequestHandler<CreateUserCommand, int>
         {
             private readonly IUnitOfWork _unitOfWork;
             private readonly IUserRepository _userRepository;
 
-            public Handler(
+            public CreateUserHandler(
                 IUnitOfWork unitOfWork,
                 IUserRepository userRepository)
             {
@@ -46,7 +46,7 @@ namespace VsaArchitecture.Application.Features.Users
                 _userRepository = userRepository;
             }
 
-            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)
             {
                 var user = request.Adapt<User>();
                 await _userRepository.AddAsync(user);
@@ -60,13 +60,13 @@ namespace VsaArchitecture.Application.Features.Users
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("api/users", async (CreateUser.Command command, ISender sender) =>
+            app.MapPost("api/users", async (CreateUser.CreateUserCommand command, ISender sender) =>
             {
                 var userId = await sender.Send(command);
                 return Results.Ok(userId);
             })
             .WithDescription("Create an user")
-            .AddEndpointFilter<ValidationFilter<CreateUser.Command>>()
+            .AddEndpointFilter<ValidationFilter<CreateUser.CreateUserCommand>>()
             .Produces(StatusCodes.Status200OK)
             .ProducesValidationProblem();
         }
