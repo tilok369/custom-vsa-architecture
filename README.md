@@ -43,7 +43,7 @@ This is the persistent infrastructure project contains the data Add, Update, Del
 ## Inspired By
 - [Nadir Badnjevic's VerticalSliceArchitecture](https://github.com/nadirbad/VerticalSliceArchitecture)
 - [Jason Taylor's Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
-- [Milan's Vetical Slice Architecture Video Tutorial](https://www.youtube.com/watch?v=msjnfdeDCmo)
+- [Milan Jovanović's Vetical Slice Architecture Video Tutorial](https://www.youtube.com/watch?v=msjnfdeDCmo)
 
 ## License
 This project is under [MIT License](https://github.com/tilok369/custom-vsa-architecture/tree/main?tab=MIT-1-ov-file)
