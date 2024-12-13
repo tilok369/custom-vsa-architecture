@@ -34,7 +34,7 @@ builder.Services.AddCarter();
 //Enable CORS//Cross site resource sharing
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("CorsPolicy",
+    options.AddPolicy("VsaArchitectureCorsPolicy",
         b => b.AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader()
@@ -108,7 +108,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("CorsPolicy");
+app.UseCors("VsaArchitectureCorsPolicy");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

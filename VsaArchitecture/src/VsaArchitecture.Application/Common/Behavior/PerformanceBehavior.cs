@@ -38,7 +38,7 @@ public class PerformanceBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
             var userId = _currentUserService.UserId ?? string.Empty;
 
             _logger.Warning(
-                "VSA Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
+                "VsaArchitecture Long Running Request: {Name} ({ElapsedMilliseconds} milliseconds) {@UserId} {@Request}",
                 requestName,
                 elapsedMilliseconds,
                 userId,

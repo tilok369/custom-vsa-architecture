@@ -21,7 +21,7 @@ public class LoggingBehavior<TRequest> : IRequestPreProcessor<TRequest> where TR
 
         await Task.Run(
             () => _logger.Information(
-            "VSA Request: {Name} {@UserId} {@Request}",
+            "VsaArchitecture Request: {Name} {@UserId} {@Request}",
             requestName,
             userId,
             request),
