@@ -26,6 +26,8 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
             {
                 throw new UnauthorizedAccessException();
             }
+
+            //TODO: check roles and policy whatever you decide for authorization
         }
 
         // User is authorized / authorization not required

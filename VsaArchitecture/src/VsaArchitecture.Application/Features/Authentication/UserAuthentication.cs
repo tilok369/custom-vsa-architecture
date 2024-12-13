@@ -1,4 +1,5 @@
-﻿using Carter;
+﻿using Asp.Versioning.Builder;
+using Carter;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -9,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using VsaArchitecture.Application.Common.Extensions;
 using VsaArchitecture.Application.Common.Filters;
 using VsaArchitecture.Application.Features.Users;
 
@@ -91,10 +93,12 @@ namespace VsaArchitecture.Application.Features.Authentication
         }
     }
 
-    public class UserAuthenticationEndpoints : ICarterModule
+    public class UserAuthenticationEndpoints : BaseCarterModule
     {
-        public void AddRoutes(IEndpointRouteBuilder app)
+        public override void AddRoutes(IEndpointRouteBuilder app)
         {
+            base.AddRoutes(app);
+
             app.MapPost("api/login", async (UserAuthentication.LoginCommand command, ISender sender) =>
             {
                 var result = await sender.Send(command);
@@ -104,11 +108,8 @@ namespace VsaArchitecture.Application.Features.Authentication
 
                 return Results.Ok(result);
             })
-            .WithDescription("User login")
-            .AddEndpointFilter<ValidationFilter<UserAuthentication.LoginCommand>>()
-            .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status401Unauthorized)
-            .ProducesValidationProblem(); ;
+            .WithPostRequest<UserAuthentication.LoginCommand>("User login", false)
+            .WithApiVersionSet(ApiVersionSet);
         }
     }
 }

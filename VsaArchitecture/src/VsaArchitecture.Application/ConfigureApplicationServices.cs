@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using MediatR.Pipeline;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using VsaArchitecture.Application.Common.Behavior;
 using VsaArchitecture.Application.Contracts.Services;
 using VsaArchitecture.Application.Services;
@@ -20,6 +22,7 @@ public static class ConfigureApplicationServices
 
             options.AddOpenBehavior(typeof(PerformanceBehavior<,>));
             options.AddOpenBehavior(typeof(AuthorizationBehavior<,>));
+            options.AddOpenBehavior(typeof(UnhandledExceptionBehaviour<,>));
             options.AddRequestPreProcessor(typeof(IRequestPreProcessor<>),typeof(LoggingBehavior<>));
         });
 

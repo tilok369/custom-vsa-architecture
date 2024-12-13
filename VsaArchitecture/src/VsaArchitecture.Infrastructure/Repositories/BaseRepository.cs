@@ -37,7 +37,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return entity;
     }
 
-    public async Task<TEntity> DeleteAsync(long id)
+    public async Task<TEntity> DeleteAsync(int id)
     {
         DbSet<TEntity> dbSet = _context.Set<TEntity>();
         var entity = await dbSet.FindAsync(id);
@@ -90,7 +90,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return entity;
     }
 
-    public async Task<TEntity> GetAsync(long id)
+    public async Task<TEntity> GetAsync(int id)
     {
         DbSet<TEntity> dbSet = _context.Set<TEntity>();
         var entity = await dbSet.FindAsync(id);

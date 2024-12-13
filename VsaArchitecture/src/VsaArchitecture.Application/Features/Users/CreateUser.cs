@@ -1,10 +1,13 @@
-﻿using Carter;
+﻿using Asp.Versioning.Builder;
+using Asp.Versioning;
+using Carter;
 using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using VsaArchitecture.Application.Common.Extensions;
 using VsaArchitecture.Application.Common.Filters;
 using VsaArchitecture.Application.Contracts.Infrastructure.Persistent;
 using VsaArchitecture.Domain.Entities;
@@ -56,19 +59,19 @@ namespace VsaArchitecture.Application.Features.Users
         }
     }
 
-    public class CreateUserEndpoint : ICarterModule
+    public class CreateUserEndpoints : BaseCarterModule
     {
-        public void AddRoutes(IEndpointRouteBuilder app)
+        public override void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapPost("api/users", async (CreateUser.CreateUserCommand command, ISender sender) =>
+            base.AddRoutes(app);
+
+            app.MapPost("users", async (CreateUser.CreateUserCommand command, ISender sender) =>
             {
                 var userId = await sender.Send(command);
                 return Results.Ok(userId);
             })
-            .WithDescription("Create an user")
-            .AddEndpointFilter<ValidationFilter<CreateUser.CreateUserCommand>>()
-            .Produces(StatusCodes.Status200OK)
-            .ProducesValidationProblem();
+            .WithPostRequest<CreateUser.CreateUserCommand>("Create an user")
+            .WithApiVersionSet(ApiVersionSet);
         }
     }
 }
