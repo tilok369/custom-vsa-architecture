@@ -11,5 +11,5 @@
   },
   "sourceName": "VsaArchitecture",
   "defaultName": "VsaArchitecture",
-  "description": "A template for creating Vertical Slice Architecture based Web API C#/.NET Core Application.",
+  "description": "A template for creating Vertical Slice Architecture based C#/.NET Core Web API Application.",
 }
