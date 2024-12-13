@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Tanjeer Bin Haque",
+  "identity": "TanjeerBinHaque.VsaArchitectureTemplate",
+  "classifications": ["Web API", "C#", "Vertical Slice Architecture Template"],
+  "name": "Vertical Slice Architecture Template",
+  "shortName": "vsa-architecture-template",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "VsaArchitecture",
+  "defaultName": "VsaArchitecture",
+  "description": "A template for creating Vertical Slice Architecture based Web API C#/.NET Core Application.",
+}
