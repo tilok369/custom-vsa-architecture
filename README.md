@@ -30,3 +30,19 @@ Loving this repository? Show your support by giving this project a star!
 - Jwt Token Authorization
 - Swagger
 
+# Project Breakdown
+## API
+This projects exposes the endpoints for consuming. It has all startup services registered.
+## Application
+This is the main project which contains the business logic. It facilitates the VSA archtecture for each features. Check "Features" folder.
+## Domain
+This projects contains business specific domain entities.
+## Infrastructure
+This is the persistent infrastructure project contains the data Add, Update, Delete and GET functionality through Entity Framework as ORM. 
+
+## Inspired By
+- [Nadir Badnjevic's VerticalSliceArchitecture](https://github.com/nadirbad/VerticalSliceArchitecture)
+- [Jason Taylor's Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
+- [Milan's Vetical Slice Architecture Video Tutorial](https://www.youtube.com/watch?v=msjnfdeDCmo)
+
+
