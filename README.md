@@ -10,3 +10,23 @@ Both Clean and VSA archteicture have some cons over their huge pros. I tried to 
 
 # Give it a START :star:
 Loving this repository? Show your support by giving this project a star!
+
+[![GitHub stars](https://img.shields.io/github/stars/tilok369/custom-vsa-architecture.svg?style=social&label=Star)](https://github.com/tilok369/custom-vsa-architecture)
+
+## Patterns Used
+- Mediator
+- CQRS
+- Generic Repository
+
+## Technologies Used
+- .NET 8 Web API (minimal API)
+- MediatR
+- Entity Framework Core
+- Fluent Validation
+- Mapster
+- Serilog
+- Asp.Versioning
+- Carter
+- Jwt Token Authorization
+- Swagger
+
