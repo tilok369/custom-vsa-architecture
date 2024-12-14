@@ -40,6 +40,17 @@ This projects contains business specific domain entities.
 ## Infrastructure
 This is the persistent infrastructure project contains the data Add, Update, Delete and GET functionality through Entity Framework as ORM. 
 
+# Nuget Project Template
+You can download it as project template as well. It is available in nuget.
+Just run the below dotnet command to install the template. Then it will be available in Visual Studio as a new project template.
+```
+dotnet new install Vsa.Architecture.Template::1.0.0
+```
+You can create a new project with the below command from dotnet CLI as well:
+```
+dotnet new vsa-architecture-template
+```
+
 # Inspired By
 - [Nadir Badnjevic's VerticalSliceArchitecture](https://github.com/nadirbad/VerticalSliceArchitecture)
 - [Jason Taylor's Clean Architecture](https://github.com/jasontaylordev/CleanArchitecture)
