@@ -8,7 +8,7 @@ Vertical Slice Architecture is a software design approach that focuses on struct
 # Purpose of this Custome Architecture
 Both Clean and VSA archteicture have some cons over their huge pros. I tried to blend both and leveraging the positive features to come up with a solution which is easy to maintain as well as quick to develop. One of the geart feature of VSA is, it organizes codebase around business goals rather than technical concerns which is maintaied here.
 
-# Give it a START :star:
+# Give it a STAR :star:
 Loving this repository? Show your support by giving this project a star!
 
 [![GitHub stars](https://img.shields.io/github/stars/tilok369/custom-vsa-architecture.svg?style=social&label=Star)](https://github.com/tilok369/custom-vsa-architecture)
