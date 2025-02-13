@@ -17,16 +17,15 @@ public static class ConfigureInfrastructureServices
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<OutboxInterceptor>();
-        services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
+        services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(configuration.GetConnectionString("ConnectionString"))
-                        .AddInterceptors(serviceProvider.GetRequiredService<OutboxInterceptor>())
                 );
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IOutboxMessageRepository, OutboxMessageRepository>();
 
         return services;
     }

@@ -1,3 +1,4 @@
+using System.Data.Common;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -6,33 +7,26 @@ using VsaArchitecture.Domain.Entities;
 
 namespace VsaArchitecture.Infrastructure.Interceptors;
 
-public class OutboxInterceptor: SaveChangesInterceptor
+public class OutboxInterceptor: DbTransactionInterceptor
 {
-    public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
-        DbContextEventData eventData, 
-        InterceptionResult<int> result,
-        CancellationToken cancellationToken = new CancellationToken())
+    public override async ValueTask<InterceptionResult> TransactionCommittingAsync(DbTransaction transaction, TransactionEventData eventData,
+        InterceptionResult result, CancellationToken cancellationToken = new CancellationToken())
     {
         var context = eventData.Context;
-        if (context == null) return await base.SavingChangesAsync(eventData, result, cancellationToken);
+        if (context == null) return await base.TransactionCommittingAsync(transaction, eventData, result, cancellationToken);
 
         foreach (var entry in context.ChangeTracker.Entries())
         {
-            if ((entry.State == EntityState.Added || entry.State == EntityState.Modified ||
-                 entry.State == EntityState.Deleted)
-                && entry.GetType() == typeof(User))
+            var outboxMessage = new OutboxMessage
             {
-                var outboxMessage = new OutboxMessage
-                {
-                    EventType = GetEventType(entry),
-                    Message = JsonSerializer.Serialize(GetEntityObject(entry)),
-                    PostedOn = DateTime.UtcNow
-                };
-                await context.Set<OutboxMessage>().AddAsync(outboxMessage, cancellationToken);
-            }
+                EventType = GetEventType(entry),
+                Message = JsonSerializer.Serialize(GetEntityObject(entry)),
+                PostedOn = DateTime.UtcNow
+            };
+            context.Set<OutboxMessage>().Add(outboxMessage);
         }
         
-        return await base.SavingChangesAsync(eventData, result, cancellationToken);
+        return await base.TransactionCommittingAsync(transaction, eventData, result, cancellationToken);
     }
     
     private Dictionary<string, object> GetEntityObject(EntityEntry entry)

@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using VsaArchitecture.Application.Contracts.Infrastructure.Persistent;
 using VsaArchitecture.Domain.Common;
+using VsaArchitecture.Domain.Entities;
 
 namespace VsaArchitecture.Infrastructure;
 

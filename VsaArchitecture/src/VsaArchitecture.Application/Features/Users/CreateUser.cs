@@ -70,7 +70,7 @@ namespace VsaArchitecture.Application.Features.Users
                 var userId = await sender.Send(command);
                 return Results.Ok(userId);
             })
-            .WithPostRequest<CreateUser.CreateUserCommand>("Create an user")
+            .WithPostRequest<CreateUser.CreateUserCommand>("Create an user", false)
             .WithApiVersionSet(ApiVersionSet);
         }
     }

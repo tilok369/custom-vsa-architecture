@@ -3,9 +3,4 @@ using VsaArchitecture.Domain.Entities;
 
 namespace VsaArchitecture.Infrastructure.Repositories;
 
-public class UserRepository : BaseRepository<User>, IUserRepository
-{
-    public UserRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-}
+public class UserRepository(ApplicationDbContext context) : BaseRepository<User>(context), IUserRepository;
