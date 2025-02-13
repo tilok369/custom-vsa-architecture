@@ -10,6 +10,7 @@ using Asp.Versioning;
 using VsaArchitecture.Api;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
 
@@ -30,6 +31,19 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 
 builder.Services.AddCarter();
+
+builder.Services.AddMassTransit(config =>
+{
+    config.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/", host =>
+        {
+            host.Username("guest");
+            host.Password("guest");
+        });
+        cfg.ConfigureEndpoints(context);
+    });
+});
 
 //Enable CORS//Cross site resource sharing
 builder.Services.AddCors(options =>
