@@ -7,12 +7,16 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Asp.Versioning;
+using Hangfire;
+using HangfireBasicAuthenticationFilter;
 using VsaArchitecture.Api;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
+using VsaArchitecture.Application.Consumers;
+using VsaArchitecture.Application.Contracts.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,8 +46,20 @@ builder.Services.AddMassTransit(config =>
             host.Password("guest");
         });
         cfg.ConfigureEndpoints(context);
+        cfg.ReceiveEndpoint("user-created-queue", e =>
+        {
+            e.ConfigureConsumer<UserCreatedConsumer>(context);
+        });
     });
 });
+
+// Hangfire background server configuration
+builder.Services.AddHangfire(config => config
+    .UseSimpleAssemblyNameTypeSerializer()
+    .UseRecommendedSerializerSettings()
+    .UseSqlServerStorage(builder.Configuration.GetConnectionString("ConnectionString")));
+
+builder.Services.AddHangfireServer();
 
 //Enable CORS//Cross site resource sharing
 builder.Services.AddCors(options =>
@@ -135,5 +151,18 @@ app.MapHealthChecks("/health", new HealthCheckOptions()
     Predicate = _ => true,
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
+
+app.UseHangfireDashboard("/vsahangfire", new DashboardOptions()
+{ 
+    DashboardTitle = "VSA Hangfire Dashboard",
+    Authorization = new[] 
+    { 
+        new HangfireCustomBasicAuthenticationFilter(){ User = "admin", Pass = "admin"}
+    }
+});
+app.MapHangfireDashboard();
+
+RecurringJob.AddOrUpdate<IOutboxBackgroundService>("capstone-sendnotification-job", 
+     s => s.Run().GetAwaiter().GetResult(), "*/5 * * * *");
 
 app.Run();
