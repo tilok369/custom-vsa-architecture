@@ -15,6 +15,7 @@ using HealthChecks.UI.Client;
 using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
+using VsaArchitecture.Application.BackgroundServices;
 using VsaArchitecture.Application.Consumers;
 using VsaArchitecture.Application.Contracts.BackgroundServices;
 
@@ -34,16 +35,19 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 
+builder.Services.AddHostedService<OutboxBackgroundServiceWorker>();
+
 builder.Services.AddCarter();
 
 builder.Services.AddMassTransit(config =>
 {
+    config.AddConsumer<UserCreatedConsumer>();
     config.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host("localhost", "/", host =>
+        cfg.Host("localhost",  5672,"/", host =>
         {
             host.Username("guest");
-            host.Password("guest");
+            host.Password("RmU53r!23");
         });
         cfg.ConfigureEndpoints(context);
         cfg.ReceiveEndpoint("user-created-queue", e =>
@@ -54,12 +58,12 @@ builder.Services.AddMassTransit(config =>
 });
 
 // Hangfire background server configuration
-builder.Services.AddHangfire(config => config
-    .UseSimpleAssemblyNameTypeSerializer()
-    .UseRecommendedSerializerSettings()
-    .UseSqlServerStorage(builder.Configuration.GetConnectionString("ConnectionString")));
-
-builder.Services.AddHangfireServer();
+// builder.Services.AddHangfire(config => config
+//     .UseSimpleAssemblyNameTypeSerializer()
+//     .UseRecommendedSerializerSettings()
+//     .UseSqlServerStorage(builder.Configuration.GetConnectionString("ConnectionString")));
+//
+// builder.Services.AddHangfireServer();
 
 //Enable CORS//Cross site resource sharing
 builder.Services.AddCors(options =>
@@ -152,17 +156,19 @@ app.MapHealthChecks("/health", new HealthCheckOptions()
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
-app.UseHangfireDashboard("/vsahangfire", new DashboardOptions()
-{ 
-    DashboardTitle = "VSA Hangfire Dashboard",
-    Authorization = new[] 
-    { 
-        new HangfireCustomBasicAuthenticationFilter(){ User = "admin", Pass = "admin"}
-    }
-});
-app.MapHangfireDashboard();
-
-RecurringJob.AddOrUpdate<IOutboxBackgroundService>("capstone-sendnotification-job", 
-     s => s.Run().GetAwaiter().GetResult(), "*/5 * * * *");
+// app.UseHangfireDashboard("/vsahangfire", new DashboardOptions()
+// { 
+//     DashboardTitle = "VSA Hangfire Dashboard",
+//     Authorization = new[] 
+//     { 
+//         new HangfireCustomBasicAuthenticationFilter(){ User = "admin", Pass = "admin"}
+//     }
+// });
+// app.MapHangfireDashboard();
+//
+//
+//
+//  RecurringJob.AddOrUpdate<IOutboxBackgroundService>("outbox-job", 
+//       s => Task.Run(() => s.Run()) , "*/1 * * * *");
 
 app.Run();

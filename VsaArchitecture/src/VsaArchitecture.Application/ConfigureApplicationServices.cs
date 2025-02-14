@@ -3,7 +3,9 @@ using MediatR.Pipeline;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using VsaArchitecture.Application.BackgroundServices;
 using VsaArchitecture.Application.Common.Behavior;
+using VsaArchitecture.Application.Contracts.BackgroundServices;
 using VsaArchitecture.Application.Contracts.Services;
 using VsaArchitecture.Application.Services;
 
@@ -15,6 +17,7 @@ public static class ConfigureApplicationServices
     {
         services.AddValidatorsFromAssemblyContaining<FluentValidatorHelper>();
         services.AddScoped<ICurrentUserService, CurrentUserService>();
+        services.AddScoped<IOutboxBackgroundService, OutboxBackgroundService>();
 
         services.AddMediatR(options =>
         {
