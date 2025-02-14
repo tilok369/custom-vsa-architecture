@@ -50,6 +50,8 @@ You can create a new project with the below command from dotnet CLI as well:
 ```
 dotnet new vsa-architecture-template
 ```
+# Update
+Outbox pattern implementation available in "outbox-implementation" branch with MassTransit and Background Worker Service.
 
 # Inspired By
 - [Nadir Badnjevic's VerticalSliceArchitecture](https://github.com/nadirbad/VerticalSliceArchitecture)
