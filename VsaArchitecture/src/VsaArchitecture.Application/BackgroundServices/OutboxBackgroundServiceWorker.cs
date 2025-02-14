@@ -17,7 +17,7 @@ public class OutboxBackgroundServiceWorker(IServiceScopeFactory serviceScopeFact
             var outboxService = scope.ServiceProvider.GetRequiredService<IOutboxBackgroundService>();
             await outboxService.Run();
 
-            await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
+            await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
         }
     }
 }
